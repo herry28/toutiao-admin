@@ -10,6 +10,18 @@ const routes=[
         path:'/login',
         name:'login',
         component:()=>import('@/views/login/Login.vue')
+    },
+    {
+        path:'/',
+        component:()=>import('@/views/layout/Layout.vue'),
+        children:[
+           {
+               path:'',
+               name:'home',
+               component:()=>import('@/views/home/Home.vue')
+           }
+        ]
+
     }
 ]
 

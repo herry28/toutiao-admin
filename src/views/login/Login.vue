@@ -91,6 +91,11 @@ export default {
         this.loginLoading=false
         // 提示登录成功
         this.$message.success('登录成功')
+        // 跳转到首页
+        this.$router.push('/')
+        // this.$router.push({
+        //   name:'home'
+        // })
       }catch (err) {
         // 关闭登录按钮的loading
         this.loginLoading=false
