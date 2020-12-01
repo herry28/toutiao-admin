@@ -86,11 +86,13 @@ export default {
       this.loginLoading=true
       try{
         const {data:res} = await login(this.user)
-        console.log(res)
+        // console.log(res)
         // 关闭登录按钮的loading
         this.loginLoading=false
         // 提示登录成功
         this.$message.success('登录成功')
+        // 获取token
+        window.localStorage.setItem('user',JSON.stringify(res.data))
         // 跳转到首页
         this.$router.push('/')
         // this.$router.push({

@@ -5,6 +5,7 @@
       text-color="#fff"
       active-text-color="#ffd04b"
       router
+      :collapse="isCollapse"
     >
       <el-menu-item index="/">
         <i class="iconfont icon-home"></i>
@@ -41,13 +42,21 @@
 export default {
   name: 'AsideNav',
   components: {},
-  props: {},
+  props: {
+    isCollapse:{
+      type:Boolean
+    }
+  },
   data () {
-    return {}
+    return {
+     
+    }
   },
   computed: {},
   watch: {},
-  created () {},
+  created () {
+    
+},
   mounted () {},
   methods: {}
 }

@@ -1,13 +1,18 @@
 <template>
   <el-container class="layout-container">
     <!--侧边栏  -->
-    <el-aside class="aside">
-      <aside-nav class="aside-nav" />
+    <el-aside class="aside" width="auto">
+      <aside-nav class="aside-nav" :is-collapse="isCollapse" />
     </el-aside >
     <!--/侧边栏  -->
     <el-container>
       <!-- 头部导航栏 -->
-      <el-header class="header">header</el-header>
+      <el-header class="header">
+        <header-nav 
+          :is-collapse="isCollapse" 
+          @collapse="isCollapse=!isCollapse"
+        />
+      </el-header>
        <!-- /头部导航栏 -->
        <!-- 主体区域 -->
        <el-main class="main">
@@ -23,15 +28,19 @@
 <script>
 
 import AsideNav from './components/AsideNav.vue'
+import HeaderNav from './components/HeaderNav.vue'
 
 export default {
   name: 'Layout',
   components: {
-    AsideNav
+    AsideNav,
+    HeaderNav
   },
   props: {},
   data () {
-    return {}
+    return {
+      isCollapse:false,//控制侧边菜单栏的折叠状态
+    }
   },
   computed: {},
   watch: {},
@@ -49,16 +58,16 @@ export default {
   bottom: 0;right: 0;
 }
 .aside{
-  background-color: pink;
+
  
 }
-/deep/.aside-nav{
+.aside-nav{
     height: 100%;
   }
 .header{
-  background-color: skyblue;
+
 }
 .main{
-  background-color: green;
+ 
 }
 </style>
