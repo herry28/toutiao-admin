@@ -24,6 +24,7 @@
   </div>
 </template>
 
+
 <script>
 
 import {getUserProfile} from '@/api/user.js'

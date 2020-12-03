@@ -22,7 +22,11 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道">
-          <el-select v-model="form.region" placeholder="请选择频道">
+          <el-select v-model="channelId" placeholder="请选择频道">
+            <el-option 
+              label="全部"
+              :value="null"
+            />
             <el-option 
               v-for="(channel,index) in articleChannels"
               :key="index"
@@ -32,15 +36,23 @@
           </el-select>
         </el-form-item>
         <el-form-item label="日期">
-          <el-col :span="11">
-            <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
-          </el-col>
-          <el-col class="line" :span="2">-</el-col>
-          <el-col :span="11">
-            <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
-          </el-col>
+          <el-date-picker
+            v-model="dateRange"
+            type="datetimerange"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+          />
         </el-form-item>
-        <el-button type="primary" @click="loadArticles(1)">查询</el-button>
+        <el-form-item>
+          <!-- button组件的click事件有个默认参数，所以应当传参，否则会默认传递一个没有用的数据 -->
+          <el-button 
+            type="primary" 
+            :disabled="loading"
+            @click="loadArticles(1)"
+          >查询</el-button>
+        </el-form-item>
       </el-form>
   <!-- /数据筛选 -->
     </el-card>
@@ -51,6 +63,7 @@
       <!-- 表格数据 -->
       <el-table
         :data="articles"
+        v-loading="loading"
         style="width: 100%"
         class="table-list"
       >
@@ -91,7 +104,7 @@
         <el-table-column
           label="操作"
         >
-          <template>
+          <template slot-scope="scope">
             <el-button
               size="mini"
               circle
@@ -103,6 +116,7 @@
               circle
               icon="el-icon-delete"
               type="danger"
+              @click="onDeleteArticle(scope.row.id)"
             ></el-button>
           </template>
         </el-table-column>
@@ -114,8 +128,10 @@
         background
         layout="prev, pager, next"
         :total="totalCount"
-        @current-change="onCurrentChange"
         :page-size="pageSize"
+        :disabled="loading"
+        :current-page="currentPage"
+        @current-change="onCurrentChange"  
       />
       <!-- /分页 -->
     </el-card>
@@ -124,7 +140,11 @@
 
 <script>
 
-import { getArticles,getArticleChannels } from '@/api/article.js'
+import { 
+  getArticles,
+  getArticleChannels,
+  deleteArticle 
+} from '@/api/article.js'
 
 export default {
   name: 'Article',
@@ -132,16 +152,6 @@ export default {
   props: {},
   data () {
     return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: '',
-      },
       articles:[], //文章列表
       articleStatus:[//文章状态
         {status:0,text:'草稿',type:'info'},
@@ -154,6 +164,10 @@ export default {
       pageSize:10,//每页显示多少条数据
       status:null,//查询文章的状态，不传就是全部
       articleChannels:[],//文章频道列表
+      channelId:null,//频道id
+      dateRange:null,//筛选的日期范围
+      loading:true,//控制表格的loading状态
+      currentPage:1,//当前页码
   }
  },
   computed: {},
@@ -165,24 +179,50 @@ export default {
   mounted () {},
   methods: {
     async loadArticles(page=1){
+      // 当发起请求时开启loading
+      this.loading=true
       const {data:res} = await getArticles({
         page,
         per_page:this.pageSize,
-        status:this.status
-
+        status:this.status,
+        channel_id:this.channelId,
+        begin_pubdate:this.dateRange ? this.dateRange[0] : null,
+        end_pubdate:this.dateRange ? this.dateRange[1] :null
       })
-      // console.log(res)
+      console.log(res)
       this.articles=res.data.results
       this.totalCount=res.data.total_count
+      // 当数据请求成功时关闭loading
+      this.loading=false
     },
     async loadArticleChannels(){
       const {data:res} = await getArticleChannels()
-      console.log(res)
+      // console.log(res)
       this.articleChannels=res.data.channels
     },
     // 当页码改变时触发
     onCurrentChange(page){
       this.loadArticles(page)
+    },
+    // 当点击删除时触发
+    onDeleteArticle(articleId){
+      // console.log(articleId)
+      // console.log(articleId.toString())
+      this.$confirm('您确认要删除该文章吗？','删除提示',{
+        confirmButtonText:'确认',
+        cancelButtonText:'取消',
+        type:'warning'
+      }).then(async ()=>{
+        await deleteArticle(articleId.toString())
+        // 更新页面
+        this.loadArticles(this.currentPage)
+      }).catch(()=>{
+        this.$message({
+        type:'info',
+        message:'已取消删除'
+      })
+    })
+      
     }
   }
 }

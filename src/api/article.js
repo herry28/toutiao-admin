@@ -21,3 +21,12 @@ export const getArticleChannels=()=>{
     url:'/mp/v1_0/channels'
   })
 }
+
+// 删除文章
+export const deleteArticle=articleId=>{
+  return request({
+    method:'DELETE',
+    //凡是接口文档中有：xxx格式的字段，需要传递路径参数
+    url:`/mp/v1_0/articles/${articleId}`
+  })
+}

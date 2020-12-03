@@ -2,13 +2,21 @@
  * 基于axios封装的请求模块
  */
 import axios from 'axios'
+import JSONbig from 'json-bigint'
 
 
 
 // 创建一个axios实例（复制）
 const request=axios.create({
     baseURL:'http://ttapi.research.itcast.cn',
-
+    // baseURL:'http://api-toutiao-web.itheima.net',//线上接口
+    transformResponse:[data=>{
+        try{
+            return JSONbig.parse(data)
+        }catch(err){
+            return data
+        }
+    }]
 })
 
 // 请求拦截器
