@@ -13,7 +13,7 @@
       </el-menu-item>
       <el-menu-item index="/article">
         <i class="iconfont icon-content"></i>
-        <span slot="title">内容管理</span>
+        <span slot="title">文章管理</span>
       </el-menu-item>
       <el-menu-item index="/image">
         <i class="iconfont icon-image"></i>
