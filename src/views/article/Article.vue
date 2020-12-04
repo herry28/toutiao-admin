@@ -10,7 +10,7 @@
         <!-- /面包屑导航 -->
       </div>
       <!-- 数据筛选 -->
-      <el-form ref="form" :model="form" label-width="80px" >
+      <el-form  label-width="80px" >
         <el-form-item label="状态">
           <el-radio-group v-model="status">
             <el-radio :label="null">全部</el-radio>
@@ -110,6 +110,7 @@
               circle
               icon="el-icon-edit"
               type="primary"
+              @click="$router.push('/publish/?id='+scope.row.id)"
             ></el-button>
             <el-button
               size="mini"
@@ -189,7 +190,7 @@ export default {
         begin_pubdate:this.dateRange ? this.dateRange[0] : null,
         end_pubdate:this.dateRange ? this.dateRange[1] :null
       })
-      console.log(res)
+      // console.log(res)
       this.articles=res.data.results
       this.totalCount=res.data.total_count
       // 当数据请求成功时关闭loading
