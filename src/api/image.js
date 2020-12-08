@@ -13,3 +13,12 @@ export const uploadImage=data=>{
     // 但使用axios上传图片时不需手动设置，只要data是一个FormData对象即可
   })
 }
+
+// 获取图片素材
+export const getImages=params=>{
+  return request({
+    method:'GET',
+    url:'/mp/v1_0/user/images',
+    params
+  })
+}

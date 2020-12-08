@@ -172,8 +172,8 @@ export default {
       this.channels=res.data.channels 
     },
 
-    async onPublish(draft){
-      this.$refs.articleFormRef.validate(valid=>{
+    onPublish(draft){
+      this.$refs.articleFormRef.validate(async valid=>{
         if(!valid){//验证失败
           return //阻止表单提交
         }
@@ -203,7 +203,7 @@ export default {
     async loadArticle(){
       //找到数据接口，封装请求方法，请求获取数据，模板绑定数据
       const {data:res} = await getArticle(this.$route.query.id)
-      console.log(res) //为什么没有获取到文章呢？？？？？？？
+      // console.log(res) //为什么没有获取到文章呢？？？？？？？
       this.article=res.data
     }
   }
