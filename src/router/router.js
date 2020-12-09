@@ -34,6 +34,11 @@ const routes=[
                path:'/image',
                name:'image',
                component:()=>import('@/views/image/Image.vue')
+           },
+           {
+               path:'/comment',
+               name:'comment',
+               component:()=>import('@/views/comment/Comment.vue')
            }
         ]
 

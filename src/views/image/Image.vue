@@ -71,17 +71,20 @@
         </el-col>
       </el-row>
       <!-- /素材区域 -->
+
+      <!-- 页码区域 -->
+      <el-pagination
+        class="page"
+        background
+        layout="prev,pager,next"
+        :page-size="pageSize"
+        :total="totalCount"
+        @current-change="onPageChange"
+      ></el-pagination>
+    <!-- 页码区域 -->
     </el-card>
 
-    <!-- 页码区域 -->
-    <el-pagination
-      background
-      layout="prev,pager,next"
-      :page-size="pageSize"
-      :total="totalCount"
-      @current-change="onPageChange"
-    ></el-pagination>
-    <!-- 页码区域 -->
+    
 
     <!-- 上传素材对话框 -->
     <el-dialog
@@ -203,5 +206,8 @@ export default {
   left: 5px;
   right: 5px;
   bottom: 4px;
+}
+.page{
+  margin-top: 30px;
 }
 </style>
