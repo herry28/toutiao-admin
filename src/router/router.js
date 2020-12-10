@@ -39,6 +39,11 @@ const routes=[
                path:'/comment',
                name:'comment',
                component:()=>import('@/views/comment/Comment.vue')
+           },
+           {
+               path:'/settings',
+               name:'settings',
+               component:()=>import('@/views/settings/Settings.vue')
            }
         ]
 
