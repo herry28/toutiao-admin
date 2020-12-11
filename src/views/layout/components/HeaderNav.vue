@@ -28,6 +28,8 @@
 <script>
 
 import {getUserProfile} from '@/api/user.js'
+// 导入全局通信模块
+import GlobalBus from '@/utils/global-bus.js'
 
 export default {
   name: 'HeaderNav',
@@ -48,6 +50,13 @@ export default {
   watch: {},
   created () {
     this.loadUserProfile()
+    // 注册更新用户的自定义事件
+    GlobalBus.$on('update-user',(data)=>{
+      console.log(data)
+      console.log(1111)
+      this.user.name=data.name
+      this.user.photo=data.photo
+    })
   },
   mounted () {},
   methods: {
