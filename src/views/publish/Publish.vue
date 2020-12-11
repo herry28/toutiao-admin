@@ -36,6 +36,13 @@
               <el-radio :label="0">无图</el-radio>
               <el-radio :label="-1">自动</el-radio>
             </el-radio-group>
+            <!-- 文章封面组件 -->
+            <template v-if="article.cover.type>0">
+              <article-cover 
+                v-for="(cover,index) in article.cover.type"
+                :key="index"
+              />
+            </template>
           </el-form-item>
           <el-form-item label="频道" prop="channel_id">
             <el-select  v-model="article.channel_id" placeholder="请选择频道">
@@ -60,6 +67,7 @@
 
 <script>
 
+import ArticleCover from './components/ArticleCover.vue'
 import { 
   getArticleChannels,
   addArticle,
@@ -89,10 +97,12 @@ import {
 import 'element-tiptap/lib/index.css'
 
 
+
 export default {
   name: 'Publish',
   components: {
-    'el-tiptap':ElementTiptap
+    'el-tiptap':ElementTiptap,
+    ArticleCover
 },
   props: {},
   data () {

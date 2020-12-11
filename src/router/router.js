@@ -44,7 +44,12 @@ const routes=[
                path:'/settings',
                name:'settings',
                component:()=>import('@/views/settings/Settings.vue')
-           }
+           },
+           {
+               path:'/fans',
+               name:'fans',
+               component:()=>import('@/views/fans/Fans.vue')
+           },
         ]
 
     }

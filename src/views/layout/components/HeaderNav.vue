@@ -52,8 +52,7 @@ export default {
     this.loadUserProfile()
     // 注册更新用户的自定义事件
     GlobalBus.$on('update-user',(data)=>{
-      console.log(data)
-      console.log(1111)
+      // console.log(data)
       this.user.name=data.name
       this.user.photo=data.photo
     })
