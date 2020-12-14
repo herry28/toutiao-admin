@@ -41,7 +41,14 @@
               <article-cover 
                 v-for="(cover,index) in article.cover.type"
                 :key="index"
+                v-model="article.cover.images[index]"
               />
+              <!-- <article-cover 
+                v-for="(cover,index) in article.cover.type"
+                :key="index"
+                :cover-img="article.cover.images[index]"
+                @update-cover="onUpdateCover(index,$event)"
+              /> -->
             </template>
           </el-form-item>
           <el-form-item label="频道" prop="channel_id">
@@ -68,6 +75,7 @@
 <script>
 
 import ArticleCover from './components/ArticleCover.vue'
+
 import { 
   getArticleChannels,
   addArticle,
@@ -102,7 +110,8 @@ export default {
   name: 'Publish',
   components: {
     'el-tiptap':ElementTiptap,
-    ArticleCover
+    ArticleCover,
+   
 },
   props: {},
   data () {
@@ -111,7 +120,7 @@ export default {
         title:'',//文章标题
         content:'',//文章内容
         cover:{//文章封面
-          type:0,//封面类型：-1---自动，0---无图，1---1张，3---3张
+          type:1,//封面类型：-1---自动，0---无图，1---1张，3---3张
           images:[],//封面图片地址
         },
         channel_id:null,//选中的频道id
@@ -215,6 +224,12 @@ export default {
       const {data:res} = await getArticle(this.$route.query.id)
       // console.log(res) //为什么没有获取到文章呢？？？？？？？
       this.article=res.data
+    },
+
+    // 监听子组件ArticleCover发布的事件
+    onUpdateCover(index,url){
+      this.article.cover.images[index]=url
+      console.log(this.article.cover.images)
     }
   }
 }
